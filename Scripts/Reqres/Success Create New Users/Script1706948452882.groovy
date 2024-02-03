@@ -18,14 +18,11 @@ import internal.GlobalVariable as GlobalVariable
 import org.openqa.selenium.Keys as Keys
 import groovy.json.JsonSlurper as JsonSlurper
 
-response = WS.sendRequest(findTestObject('Booking/Create Token', [('baseUrl') : GlobalVariable.baseUrl, ('username') : GlobalVariable.username
-            , ('password') : GlobalVariable.password]))
+response = WS.sendRequest(findTestObject('Reqres/Create User', [('baseUrl') : GlobalVariable.baseUrl]))
 
 //Test Case
 //Assertion
-WS.verifyResponseStatusCode(response, 200)
-
-WS.containsString(response, 'token', false)
+WS.verifyResponseStatusCode(response, 201)
 
 //Parse response
 def jsonSlurper = new JsonSlurper()
@@ -33,7 +30,6 @@ def jsonSlurper = new JsonSlurper()
 def jsonResponse = jsonSlurper.parseText(response.getResponseBodyContent())
 
 //save token to global variable
-GlobalVariable.token = jsonResponse.token
+GlobalVariable.userId = jsonResponse.id
 
-WS.verifyEqual(jsonResponse.token, GlobalVariable.token)
-
+WS.verifyEqual(jsonResponse.id, GlobalVariable.userId)

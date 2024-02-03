@@ -16,24 +16,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
 import internal.GlobalVariable as GlobalVariable
 import org.openqa.selenium.Keys as Keys
-import groovy.json.JsonSlurper as JsonSlurper
 
-response = WS.sendRequest(findTestObject('Booking/Create Token', [('baseUrl') : GlobalVariable.baseUrl, ('username') : GlobalVariable.username
-            , ('password') : GlobalVariable.password]))
+response = WS.sendRequest(findTestObject('Reqres/Get User', [('baseUrl') : GlobalVariable.baseUrl, ('userId') : GlobalVariable.userId]))
 
-//Test Case
-//Assertion
 WS.verifyResponseStatusCode(response, 200)
-
-WS.containsString(response, 'token', false)
-
-//Parse response
-def jsonSlurper = new JsonSlurper()
-
-def jsonResponse = jsonSlurper.parseText(response.getResponseBodyContent())
-
-//save token to global variable
-GlobalVariable.token = jsonResponse.token
-
-WS.verifyEqual(jsonResponse.token, GlobalVariable.token)
-
